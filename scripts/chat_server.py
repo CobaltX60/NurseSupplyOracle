@@ -286,7 +286,7 @@ def load_models_once():
             )
             
             # Load tokenizer
-            hf_token = os.environ.get('HF_TOKEN', 'your_hf_token_here')
+            hf_token = os.environ.get('HF_TOKEN', None)
             _llm_tokenizer = AutoTokenizer.from_pretrained(MODEL, token=hf_token, use_fast=False)
             
             # Load model with aggressive optimization

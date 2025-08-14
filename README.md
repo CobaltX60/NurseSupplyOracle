@@ -107,7 +107,7 @@ The system includes comprehensive nursing knowledge from:
 ### Environment Variables
 ```bash
 # Hugging Face token (for model access)
-export HF_TOKEN="your_hf_token_here"
+export HF_TOKEN="your_actual_token_here"
 
 # Optional: CUDA device
 export CUDA_VISIBLE_DEVICES=0
