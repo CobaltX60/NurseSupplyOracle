@@ -6,10 +6,10 @@ def test_imports():
     print("Testing imports...")
     
     try:
-        import pdfplumber
-        print("✓ pdfplumber imported successfully")
-    except ImportError as e:
-        print(f"✗ pdfplumber import failed: {e}")
+    import fitz  # PyMuPDF
+    print("✓ PyMuPDF imported successfully")
+except ImportError as e:
+    print(f"✗ PyMuPDF import failed: {e}")
         return False
     
     try:
@@ -106,7 +106,7 @@ def main():
     
     print("\n✅ All tests passed! Your setup is ready.")
     print("\nNext steps:")
-    print("1. Place your textbook.pdf in the project root")
+    print("1. Place your textbook.pdf in the source_files/ directory")
     print("2. Run: python scripts/prepare.py")
     print("3. Run: npm run dev")
     print("4. Open http://localhost:3000")

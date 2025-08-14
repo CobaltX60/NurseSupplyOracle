@@ -60,7 +60,7 @@ def main():
     model = SentenceTransformer('all-MiniLM-L6-v2')
     
     # Focus on textbook3.pdf first
-    pdf_path = "textbook3.pdf"
+pdf_path = "source_files/textbook3.pdf"
     textbook_name = "Tertiary Nursing Textbook"
     
     if not os.path.exists(pdf_path):

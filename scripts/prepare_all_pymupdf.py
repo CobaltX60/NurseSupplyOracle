@@ -59,11 +59,11 @@ def main():
     print("Loading sentence transformer model...")
     model = SentenceTransformer('all-MiniLM-L6-v2')
     
-    # Define textbooks to process
+    # Define textbooks to process (now in source_files directory)
     textbooks = [
-        ("textbook.pdf", "Primary Nursing Textbook"),
-        ("textbook2.pdf", "Secondary Nursing Textbook"),
-        ("textbook3.pdf", "Tertiary Nursing Textbook")
+        ("source_files/textbook.pdf", "Primary Nursing Textbook"),
+        ("source_files/textbook2.pdf", "Secondary Nursing Textbook"),
+        ("source_files/textbook3.pdf", "Tertiary Nursing Textbook")
     ]
     
     all_chunks = []

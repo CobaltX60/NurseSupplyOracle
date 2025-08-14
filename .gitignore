@@ -92,3 +92,6 @@ response_cache.pkl
 # OS
 .DS_Store
 Thumbs.db
+
+# Embedded repositories
+llama-cpp-python/

@@ -10,7 +10,7 @@ torchaudio>=2.0.0+cu118 --index-url https://download.pytorch.org/whl/cu118
 faiss-gpu>=1.7.0
 
 # Other dependencies
-pdfplumber>=0.10.0
+PyMuPDF>=1.23.0
 sentence-transformers>=2.2.0
 numpy>=1.24.0
 transformers>=4.30.0

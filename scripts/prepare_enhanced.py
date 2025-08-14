@@ -1,5 +1,5 @@
 # scripts/prepare_enhanced.py
-import pdfplumber
+import fitz  # PyMuPDF
 import json
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -17,32 +17,40 @@ def extract_text_from_pdf_enhanced(pdf_path, textbook_name):
     image_pages = 0
     
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            for pg_num, pg in enumerate(pdf.pages):
-                # Try regular text extraction first
-                txt = pg.extract_text() or ''
-                
-                if len(txt.strip()) < 50:  # If very little text, try OCR
-                    print(f"   Page {pg_num + 1}: Little text found, attempting OCR...")
-                    try:
-                        # Convert page to image
-                        img = pg.to_image()
-                        if img:
-                            # Convert to PIL Image
-                            pil_img = Image.fromarray(img.original)
-                            # Use OCR to extract text
-                            ocr_text = pytesseract.image_to_string(pil_img)
-                            if len(ocr_text.strip()) > len(txt.strip()):
-                                txt = ocr_text
-                                image_pages += 1
-                                print(f"   Page {pg_num + 1}: OCR extracted {len(ocr_text)} characters")
-                    except Exception as e:
-                        print(f"   Page {pg_num + 1}: OCR failed - {e}")
-                
-                if txt.strip():
-                    text_pages += 1
-                
-                texts.append(txt)
+        doc = fitz.open(pdf_path)
+        total_pages = len(doc)
+        
+        for pg_num in range(total_pages):
+            page = doc.load_page(pg_num)
+            # Try regular text extraction first
+            txt = page.get_text("text") or ''
+            
+            if len(txt.strip()) < 50:  # If very little text, try OCR
+                print(f"   Page {pg_num + 1}: Little text found, attempting OCR...")
+                try:
+                    # Convert page to image
+                    pix = page.get_pixmap()
+                    img_data = pix.tobytes("png")
+                    pil_img = Image.open(io.BytesIO(img_data))
+                    # Use OCR to extract text
+                    ocr_text = pytesseract.image_to_string(pil_img)
+                    if len(ocr_text.strip()) > len(txt.strip()):
+                        txt = ocr_text
+                        image_pages += 1
+                        print(f"   Page {pg_num + 1}: OCR extracted {len(ocr_text)} characters")
+                except Exception as e:
+                    print(f"   Page {pg_num + 1}: OCR failed - {e}")
+            
+            if txt.strip():
+                text_pages += 1
+            
+            texts.append(txt)
+            
+            # Progress indicator
+            if (pg_num + 1) % 100 == 0:
+                print(f"   Processed {pg_num + 1}/{total_pages} pages...")
+        
+        doc.close()
                 
     except FileNotFoundError:
         print(f"Warning: {pdf_path} not found, skipping...")
@@ -75,11 +83,11 @@ def main():
     print("Loading sentence transformer model...")
     model = SentenceTransformer('all-MiniLM-L6-v2')
     
-    # Define textbooks to process
+    # Define textbooks to process (now in source_files directory)
     textbooks = [
-        ("textbook.pdf", "Primary Nursing Textbook"),
-        ("textbook2.pdf", "Secondary Nursing Textbook"),
-        ("textbook3.pdf", "Tertiary Nursing Textbook")
+        ("source_files/textbook.pdf", "Primary Nursing Textbook"),
+        ("source_files/textbook2.pdf", "Secondary Nursing Textbook"),
+        ("source_files/textbook3.pdf", "Tertiary Nursing Textbook")
     ]
     
     all_chunks = []
@@ -94,10 +102,10 @@ def main():
     
     if not all_chunks:
         print("Error: No textbooks found to process!")
-        print("Please ensure at least one of the following files exists:")
-        print("- textbook.pdf")
-        print("- textbook2.pdf")
-        print("- textbook3.pdf")
+        print("Please ensure at least one of the following files exists in source_files/ directory:")
+        print("- source_files/textbook.pdf")
+        print("- source_files/textbook2.pdf")
+        print("- source_files/textbook3.pdf")
         return
     
     print(f"Total chunks created: {len(all_chunks)}")

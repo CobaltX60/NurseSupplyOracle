@@ -74,7 +74,7 @@ A comprehensive AI-powered nursing education assistant that provides instant ans
 1. **Start the Flask backend**
    ```bash
    cd scripts
-   python chat_server_hf.py
+   python chat_server.py
    ```
 
 2. **Start the Next.js frontend** (in a new terminal)
@@ -83,7 +83,7 @@ A comprehensive AI-powered nursing education assistant that provides instant ans
    ```
 
 3. **Access the application**
-   - Frontend: http://localhost:3000
+   - Frontend: http://localhost:3001
    - Backend API: http://localhost:5001
    - Health Check: http://localhost:5001/health
 

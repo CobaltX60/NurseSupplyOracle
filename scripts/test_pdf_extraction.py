@@ -1,30 +1,33 @@
 # scripts/test_pdf_extraction.py
 import os
 import fitz  # PyMuPDF
-import pdfplumber
+import fitz  # PyMuPDF
 import pytesseract
 from PIL import Image
 import io
 
-def test_pdfplumber(pdf_path):
-    """Test pdfplumber extraction"""
-    print("🔍 Testing pdfplumber...")
+def test_pymupdf(pdf_path):
+    """Test PyMuPDF extraction"""
+    print("🔍 Testing PyMuPDF...")
     try:
-        with pdfplumber.open(pdf_path) as pdf:
-            total_pages = len(pdf.pages)
-            text_pages = 0
-            total_chars = 0
-            
-            for i in range(min(10, total_pages)):  # Test first 10 pages
-                page = pdf.pages[i]
-                text = page.extract_text() or ''
-                if len(text.strip()) > 0:
-                    text_pages += 1
-                    total_chars += len(text)
-            
-            print(f"   Pages with text: {text_pages}/10")
-            print(f"   Total characters: {total_chars}")
-            return text_pages > 0
+        doc = fitz.open(pdf_path)
+        total_pages = len(doc)
+        print(f"   Found {total_pages} pages")
+        
+        text_pages = 0
+        total_chars = 0
+        
+        for i in range(min(10, total_pages)):  # Test first 10 pages
+            page = doc.load_page(i)
+            text = page.get_text("text")
+            if len(text.strip()) > 0:
+                text_pages += 1
+                total_chars += len(text)
+        
+        doc.close()
+        print(f"   Pages with text: {text_pages}/10")
+        print(f"   Total characters: {total_chars}")
+        return text_pages > 0
     except Exception as e:
         print(f"   Error: {e}")
         return False
@@ -86,7 +89,7 @@ def test_ocr(pdf_path):
         return False
 
 def main():
-    pdf_path = "textbook3.pdf"
+    pdf_path = "source_files/textbook3.pdf"
     
     if not os.path.exists(pdf_path):
         print(f"❌ {pdf_path} not found")
@@ -98,7 +101,7 @@ def main():
     # Test each method
     results = {}
     
-    results['pdfplumber'] = test_pdfplumber(pdf_path)
+    results['pymupdf'] = test_pymupdf(pdf_path)
     print()
     
     results['pymupdf'] = test_pymupdf(pdf_path)
