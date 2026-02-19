@@ -1,31 +1,19 @@
 # scripts/download_model.py
-import requests
-import os
-import sys
+"""Instrument Oracle - Model / API setup info.
+The chat LLM is Google Gemini 2.0 Flash (API). Only the embedding model is downloaded locally."""
 
 def download_model():
-    """Download a Hugging Face model for testing"""
-    
-    print("🚀 Nurse Supply Oracle - Model Download")
+    print("🚀 Instrument Oracle - Setup")
     print("=" * 50)
-    print("This application now uses Hugging Face models directly!")
-    print("No manual model downloads are required.")
+    print("Chat LLM: Google Gemini 2.0 Flash (API). Set GEMINI_API_KEY in .env.")
+    print("Embeddings: sentence-transformers/all-MiniLM-L6-v2 (downloaded on first rebuild or chat server start).")
     print()
-    print("The system will automatically download and cache models from:")
-print("  - mistralai/Mistral-7B-Instruct")
-print("  - microsoft/DialoGPT-large")
-    print()
-    print("✅ Models are downloaded automatically on first use")
-    print("✅ 4-bit quantization for optimal GPU performance")
-    print("✅ Cached locally for faster subsequent loads")
-    print()
-    print("To start using the application:")
-    print("1. Run: python scripts/chat_server_hf.py")
-    print("2. Open: http://localhost:3000")
-    print("3. Ask your first question!")
-    print()
-    print("The first question will take longer as the model downloads.")
-    print("Subsequent questions will be much faster.")
+    print("To run the application:")
+    print("1. Copy .env.example to .env and set GEMINI_API_KEY (get one at https://aistudio.google.com/apikey)")
+    print("2. Run: python scripts/chat_server.py")
+    print("3. Run: npm run dev  (Next.js on port 3001)")
+    print("4. Put PDFs in scripts/source_files/ and run: python scripts/rebuild.py")
+    print("5. Restart the chat server, then ask questions in the browser.")
 
 if __name__ == "__main__":
     download_model() 

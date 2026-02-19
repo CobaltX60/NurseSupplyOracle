@@ -1,5 +1,5 @@
 {
-  "name": "nurse-supply-oracle",
+  "name": "instrument-oracle",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
   "dependencies": {
     "next": "15.4.5",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "undici": "^7.22.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

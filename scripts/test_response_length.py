@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test the improved response length from the Nurse Supply Oracle
+Test the improved response length from the Instrument Oracle
 """
 
 import requests

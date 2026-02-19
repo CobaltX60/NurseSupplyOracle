@@ -1,4 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { fetch as undiciFetch, Agent } from 'undici'
+
+// LLM with CPU offload can take 5+ minutes; use long timeouts so the client doesn't abort before Flask responds.
+const CHAT_TIMEOUT_MS = 10 * 60 * 1000 // 10 minutes
+const chatAgent = new Agent({
+  headersTimeout: CHAT_TIMEOUT_MS,
+  bodyTimeout: CHAT_TIMEOUT_MS,
+  connectTimeout: 30_000,
+})
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
@@ -12,13 +21,13 @@ export async function POST(request: NextRequest) {
 
     console.log(`Processing question: "${question.substring(0, 50)}..."`)
     
-    // Send request to Flask server
-    const flaskResponse = await fetch('http://localhost:5001/chat', {
+    const flaskResponse = await undiciFetch('http://localhost:5001/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ question: question.trim() })
+      body: JSON.stringify({ question: question.trim() }),
+      dispatcher: chatAgent,
     })
     
     if (!flaskResponse.ok) {
@@ -27,17 +36,28 @@ export async function POST(request: NextRequest) {
       throw new Error(`Flask server error: ${flaskResponse.status}`)
     }
     
-    const flaskData = await flaskResponse.json()
+    const flaskData = await flaskResponse.json() as {
+      answer?: string
+      cached?: boolean
+      sources?: string[]
+      image_refs?: string[]
+      product_cards?: unknown[]
+      debug_error?: string
+    }
     const responseTime = Date.now() - startTime
-    
+
     console.log(`Response generated in ${responseTime}ms`)
-    
-    return NextResponse.json({
-      answer: flaskData.answer,
+
+    const out: Record<string, unknown> = {
+      answer: flaskData.answer ?? '',
       responseTime: responseTime,
-      cached: flaskData.cached || false,
-      sources: flaskData.sources || []
-    })
+      cached: flaskData.cached ?? false,
+      sources: flaskData.sources ?? [],
+      image_refs: flaskData.image_refs ?? [],
+      product_cards: flaskData.product_cards ?? []
+    }
+    if (flaskData.debug_error) out.debug_error = flaskData.debug_error
+    return NextResponse.json(out)
     
   } catch (error) {
     const responseTime = Date.now() - startTime

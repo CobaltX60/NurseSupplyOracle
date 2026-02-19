@@ -1,0 +1,49 @@
+{
+  "catalog_id": "default",
+  "manufacturer": "Unknown",
+  "zone_detection": {
+    "method": "whitespace",
+    "min_gap_pts": 30
+  },
+  "column_detection": {
+    "enabled": false,
+    "method": "text_clustering",
+    "min_column_gap_pts": 30,
+    "trigger": "multiple_family_names_in_zone",
+    "image_column_assignment": "x_center_within_column_bounds"
+  },
+  "catalog_number_patterns": [
+    {
+      "regex": "[A-Z]{1,4}[\\-]?\\d{3,6}",
+      "description": "General alphanumeric pattern"
+    }
+  ],
+  "product_hierarchy": {
+    "family_name_detection": "first bold text in zone",
+    "family_name_font_bold": true,
+    "family_name_min_font_size": 9,
+    "shared_attributes": "non-bold text between family name and first catalog number",
+    "variant_detection": "text following each catalog number"
+  },
+  "image_rules": {
+    "large_photo_min_dimension_pts": 150,
+    "large_photo_association": "family",
+    "large_photo_typical_position": "right",
+    "small_drawing_association": "nearest_catalog_number_in_zone",
+    "small_drawing_max_dimension_pts": 100
+  },
+  "ignore_regions": {
+    "footer": {
+      "description": "Page number and contact info",
+      "y_min_from_bottom_pts": 40
+    }
+  },
+  "symbols": {},
+  "variability_notes": "Default profile - consider running catalog analysis for better results",
+  "confidence_scores": {
+    "zone_detection": 3,
+    "catalog_numbers": 4,
+    "image_association": 4,
+    "hierarchy": 4
+  }
+}

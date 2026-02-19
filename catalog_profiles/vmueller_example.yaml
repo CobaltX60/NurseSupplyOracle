@@ -1,0 +1,26 @@
+# Example catalog profile: V. Mueller / CareFusion style
+# Orange horizontal rules divide product groups. Images in a zone belong to that group.
+# Save a copy as <source_name>.yaml (e.g. vmueller-snowdenpencer-armamentarium-catalogue-8.yaml)
+# so it is picked up automatically for that catalog.
+
+catalog_id: vmueller_example
+manufacturer: "V. Mueller / CareFusion"
+
+# How product groups are delimited on the page
+product_grouping:
+  delimiter: orange_horizontal_rule
+  delimiter_detection:
+    color_rgb: [0.95, 0.47, 0.15]   # orange #F27926-ish (normalized 0-1)
+    color_tolerance: 0.15
+    min_width_pts: 100
+    max_height_pts: 5
+
+# Image association: use zones (between orange lines), not whole-page proximity
+image_association:
+  zone_based: true
+  # Large product photos (one per zone) = family-level; small drawings = variant-level by proximity within zone
+  large_product_photos:
+    association: family_level
+  small_detail_drawings:
+    association: variant_level
+    matching: proximity_within_zone

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for product integration in Nurse Supply Oracle
+Test script for product integration in Instrument Oracle
 """
 
 import requests
@@ -10,7 +10,7 @@ import time
 def test_product_integration():
     """Test the enhanced system with product-related questions"""
     
-    print("🧪 Testing Product Integration in Nurse Supply Oracle")
+    print("🧪 Testing Product Integration in Instrument Oracle")
     print("=" * 60)
     
     # Test questions that should trigger product recommendations

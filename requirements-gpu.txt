@@ -1,4 +1,4 @@
-# GPU-enabled requirements for Nurse Supply Oracle
+# GPU-enabled requirements for Instrument Oracle
 # Install with: pip install -r requirements-gpu.txt
 
 # Core ML libraries with GPU support

@@ -83,6 +83,9 @@ chunks*.json
 faiss_index*.idx
 response_cache.pkl
 
+# Instrument Oracle data (SQLite + FAISS from rebuild)
+/data/
+
 # IDE
 .vscode/
 .idea/
@@ -92,6 +95,3 @@ response_cache.pkl
 # OS
 .DS_Store
 Thumbs.db
-
-# Embedded repositories
-llama-cpp-python/

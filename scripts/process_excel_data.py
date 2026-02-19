@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Process Excel data for Nurse Supply Oracle
+Process Excel data for Instrument Oracle
 Integrates product data with textbook knowledge for enhanced responses
 """
 
@@ -154,7 +154,7 @@ def integrate_with_existing_chunks():
 def main():
     """Main processing function"""
     
-    print("🚀 Nurse Supply Oracle - Excel Data Processing")
+    print("🚀 Instrument Oracle - Excel Data Processing")
     print("=" * 50)
     
     # Load Excel data

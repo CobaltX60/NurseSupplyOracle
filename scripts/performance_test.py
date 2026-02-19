@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Performance test script for Nurse Supply Oracle
+Performance test script for Instrument Oracle
 Compares optimized vs original versions
 """
 
@@ -104,7 +104,7 @@ def test_server_performance(server_url, test_questions, server_name):
 def main():
     """Main performance test function"""
     
-    print("🚀 Nurse Supply Oracle - Performance Test")
+    print("🚀 Instrument Oracle - Performance Test")
     print("=" * 60)
     print(f"⏰ Test started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
